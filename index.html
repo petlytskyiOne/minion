@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>minion</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Poppins"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IM+Fell+English&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=qnEUUafu"></script>
+
+    <style>
+      html,
+      body {
+        /* font-family: "Cinzel Decorative", serif; */
+        /* font-family: "IM Fell English", serif; */
+
+        font-family: "Poppins", sans-serif;
+        font-size: 37px;
+        color: #d0d0d0;
+        background-color: #333;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      main {
+        flex: 1;
+      }
+
+      @media (max-width: 500px) {
+        body {
+          font-size: 23px;
+        }
+      }
+
+      .w3-red {
+        background-color: rgba(39, 46, 76, 0.9) !important;
+        color: #d0d0d0 !important;
+      }
+
+      .w3-hover-red:hover {
+        background-color: rgba(75, 92, 127, 0.8) !important;
+      }
+
+      /* Загальні стилі для sidebar */
+      .w3-sidebar {
+        width: 300px;
+        transition: transform 0.3s ease;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-100%);
+        /* Приховане за замовчуванням */
+        background-color: rgba(39, 46, 76, 0.9);
+        /* Прозоре меню */
+        z-index: 1000;
+        /* Зробити меню поверх інших елементів */
+      }
+
+      /* Відкрите меню */
+      .w3-sidebar.open {
+        transform: translateX(0);
+        /* Відкрите меню */
+      }
+
+      /* Для великих екранів */
+      @media (min-width: 768px) {
+        .w3-sidebar {
+          transform: translateX(0);
+          /* Меню завжди відкрите */
+        }
+
+        .menu-button {
+          display: none;
+          /* Прибираємо кнопку меню */
+        }
+
+        .page {
+          margin-left: 340px;
+          /* Відступ для основного контенту */
+        }
+      }
+
+      .page {
+        display: none;
+        margin: 70px 40px 0 340px;
+      }
+
+      .page.active {
+        display: block;
+      }
+
+      footer {
+        background-color: #272e4c;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        flex-shrink: 0;
+      }
+
+      .menu-button {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        z-index: 1000;
+        font-size: 30px;
+        background-color: rgba(39, 46, 76, 0.9);
+        color: #d0d0d0;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        text-decoration: none;
+      }
+
+      .menu-button:hover {
+        background-color: rgba(75, 92, 127, 0.8);
+      }
+
+      .w3-bar-item {
+        color: #8f8f8f !important;
+        font-family: "IM Fell English", serif;
+      }
+
+      .content p:nth-child(even) {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+      }
+
+      /* Відображаємо елемент, коли він активний */
+      .content p.visible {
+        display: block;
+        opacity: 1;
+        font-size: 25px;
+        font-family: "Courier New", Courier, monospace;
+        line-height: 1;
+      }
+
+      .content p:nth-child(odd) {
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      .content p:nth-child(odd):hover {
+        text-decoration: none;
+        background-color: rgba(75, 92, 127, 0.8);
+      }
+
+      .w3-round {
+        border: 3px solid #8bfe00 !important;
+        border-radius: 4px;
+      }
+
+      .short-hr {
+        width: 3%;
+        margin: left;
+      }
+
+      .w3-hover-white {
+        color: #4f4f4f;
+      }
+      .logo {
+        font-family: "IM Fell English", serif;
+        line-height: 0.8;
+        color: #4f4f4f;
+      }
+      .namelogo1 {
+        font-size: 0.6rem;
+      }
+      .namelogo2 {
+        font-size: 1.2rem;
+      }
+      .namelogo3 {
+        font-size: 0.8rem;
+      }
+      p {
+        margin-bottom: 20px;
+      }
+      a .namelogo2 {
+        font-family: "IM Fell English", serif;
+        font-size: 1.2rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Sidebar -->
+    <nav class="w3-sidebar w3-red" id="mySidebar">
+      <div class="w3-container">
+        <h1 class="w3-center logo">
+          <span class="namelogo3">minion</span>
+        </h1>
+      </div>
+      <div class="w3-bar-block" id="sidebarMenu"></div>
+    </nav>
+
+    <!-- Button to toggle sidebar -->
+    <button class="menu-button" id="toggleSidebar">☰</button>
+
+    <!-- Main content container -->
+    <div id="content"></div>
+
+    <!-- Footer -->
+    <footer class="w3-light-grey w3-container w3-padding w3-red footer">
+      <p class="w3-right">O livro de Alexandre</p>
+    </footer>
+
+    <script>
+      // Функція для озвучування тексту англійською мовою
+      function speakText(text) {
+        if (typeof responsiveVoice !== "undefined") {
+          responsiveVoice.speak(text, "Portuguese Male", { rate: 0.7 });
+        } else {
+          alert("ResponsiveVoice не підтримується вашим браузером.");
+        }
+      }
+
+      // Функція для ініціалізації обробників кліків на параграфах
+      function initSpeech() {
+        document.querySelectorAll(".content p").forEach((paragraph) => {
+          paragraph.addEventListener("click", () => {
+            speakText(paragraph.textContent);
+          });
+        });
+      }
+
+      function createChapterContainers() {
+        const contentContainer = document.getElementById("content");
+
+        chapters.forEach((chapter) => {
+          const chapterContainer = document.createElement("main");
+          chapterContainer.className = "w3-main page";
+          chapterContainer.id = chapter.id;
+          chapterContainer.style.display = "none"; // Приховуємо всі глави за замовчуванням
+
+          const chapterContent = document.createElement("div");
+          chapterContent.className = "w3-container";
+          chapterContent.innerHTML = `
+      <h2 class="w3-xxlarge">${chapter.chapterNumber}</h2>
+      <b class="w3-xxxlarge">${chapter.title}</b>
+      <hr class="w3-round short-hr" />
+    `;
+
+          const contentDiv = document.createElement("div");
+          contentDiv.className = "content";
+
+          chapter.content.forEach((item, index) => {
+            const originalP = document.createElement("p");
+            originalP.className = "speakable original";
+            originalP.textContent = item.originalText;
+
+            const translationP = document.createElement("p");
+            translationP.className = "translation hidden";
+            translationP.textContent = item.translation;
+
+            originalP.addEventListener("click", function () {
+              speakText(originalP.textContent);
+              translationP.classList.toggle("hidden");
+            });
+
+            contentDiv.appendChild(originalP);
+            contentDiv.appendChild(translationP);
+          });
+
+          // Додавання зображення через функцію з іншого скрипту
+          if (chapter.image) {
+            addChapterImage(chapterContent, chapter.image);
+          }
+
+          chapterContent.appendChild(contentDiv);
+          chapterContainer.appendChild(chapterContent);
+          contentContainer.appendChild(chapterContainer);
+        });
+      }
+
+      function createMenu() {
+        const sidebarMenu = document.getElementById("sidebarMenu");
+
+        chapters.forEach((chapter) => {
+          const menuItem = document.createElement("a");
+          menuItem.href = "#";
+          menuItem.className = "w3-bar-item w3-button w3-hover-dark-grey";
+          menuItem.textContent = chapter.chapterNumber;
+
+          menuItem.addEventListener("click", () => {
+            showPage(chapter.id);
+
+            // Закриваємо сайдбар після вибору глави (тільки на мобільних пристроях)
+            if (window.innerWidth < 768) {
+              document.getElementById("mySidebar").classList.remove("open");
+            }
+          });
+
+          sidebarMenu.appendChild(menuItem);
+        });
+      }
+
+      function toggleSidebar() {
+        document.getElementById("mySidebar").classList.toggle("open");
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const toggleButton = document.getElementById("toggleSidebar");
+        if (toggleButton) {
+          toggleButton.addEventListener("click", toggleSidebar);
+        }
+      });
+
+      function init() {
+        createMenu();
+        createChapterContainers();
+        showPage(window.chapters[0].id); // Показати першу главу за замовчуванням
+
+        // Ініціалізація озвучування для кожного параграфа
+        initSpeech();
+
+        // Додавання обробників кліків на парні абзаци
+        document
+          .querySelectorAll(".content p:nth-child(odd)")
+          .forEach((paragraph) => {
+            paragraph.addEventListener("click", () => {
+              const answer = paragraph.nextElementSibling;
+              if (answer) {
+                answer.classList.toggle("visible");
+              }
+            });
+          });
+      }
+
+      // Запуск ініціалізації після завантаження сторінки
+      window.onload = init;
+
+      function showPage(pageId) {
+        document.querySelectorAll(".page").forEach((page) => {
+          page.style.display = "none";
+        });
+        const selectedPage = document.getElementById(pageId);
+        if (selectedPage) {
+          selectedPage.style.display = "block";
+        }
+      }
+
+      // Файл imageHandler.js
+      function addChapterImage(chapterContent, imageSrc) {
+        const imageElement = document.createElement("img");
+        imageElement.src = imageSrc; // Шлях до зображення
+        imageElement.alt = "Chapter Illustration"; // Атрибут alt для зображення
+        imageElement.style.maxWidth = "100%"; // Зображення буде адаптивним
+        imageElement.style.height = "auto"; // Висота зображення автоматична
+
+        chapterContent.appendChild(imageElement);
+      }
+
+      window.chapters = window.chapters || [];
+
+      window.chapters.push({
+        id: "encontro",
+        chapterNumber: "Encontro",
+        title: "Encontro de dois amigos",
+        content: [
+          {
+            originalText: "Bob: Oi, Kevin! Como você está? 😃",
+            translation: "Боб: Ой, Кевіне! Як ти? 😃",
+          },
+          {
+            originalText: "Kevin: Oi, Bob! Estou muito feliz! 🍌😆",
+            translation: "Кевін: Ой, Бобе! Я дуже щасливий! 🍌😆",
+          },
+          {
+            originalText: "Bob: Haha! Você encontrou bananas?",
+            translation: "Боб: Ха-ха! Ти знайшов банани?",
+          },
+          {
+            originalText: "Kevin: Sim! Muitas bananas! Quer uma? 🍌",
+            translation: "Кевін: Так! Багато бананів! Хочеш один? 🍌",
+          },
+          {
+            originalText: "Bob: Sim, sim! Amo bananas! Obrigado! 🤩",
+            translation: "Боб: Так, так! Я люблю банани! Дякую! 🤩",
+          },
+          {
+            originalText: "Kevin: Haha! Vamos dançar agora? 🎶💃",
+            translation: "Кевін: Ха-ха! Давай потанцюємо зараз? 🎶💃",
+          },
+          {
+            originalText: "Bob: Sim! Banananana! 🎉😂",
+            translation: "Боб: Так! Банананана! 🎉😂",
+          },
+        ],
+        image: "./images/photo1.jpg", // Вказуємо шлях до зображення
+      });
+
+      window.chapters = window.chapters || [];
+
+      window.chapters.push({
+        id: "festa",
+        chapterNumber: "Festa",
+        title: "Uma grande festa de minions",
+        content: [
+          {
+            originalText: "Bob: Oi, Kevin, Stuart! Como vocês estão? 😄",
+            translation: "Боб: Ой, Кевіне, Стюарт! Як ви? 😄",
+          },
+          {
+            originalText: "Kevin: Oi, Bob! Estamos na festa! 🎉",
+            translation: "Кевін: Привіт, Бобе! Ми на вечірці! 🎉",
+          },
+          {
+            originalText: "Stuart: Sim, e tem tanta gente divertida aqui! 🕺💃",
+            translation: "Стюарт: Так, і тут стільки веселих людей! 🕺💃",
+          },
+          {
+            originalText: "Bob: Uau, quantas bananas! 🍌 Alguém trouxe elas?",
+            translation: "Боб: Ого, скільки бананів! 🍌 Хтось приніс їх?",
+          },
+          {
+            originalText: "Kevin: Eu! Eu trouxe muitas bananas! 🍌😋 Querem?",
+            translation: "Кевін: Я! Я приніс багато бананів! 🍌😋 Хочете?",
+          },
+          {
+            originalText:
+              "Stuart: Eu também trouxe algumas! Só que estão misturadas com outros doces! 🍩😆",
+            translation:
+              "Стюарт: Я теж приніс кілька! Тільки вони трохи змішані з іншими смаколиками! 🍩😆",
+          },
+          {
+            originalText:
+              "Bob: Haha, então vamos dançar! Festa, vamos lá! 🎶💃🕺",
+            translation:
+              "Боб: Ха-ха, ну тоді ми танцюємо! Вечірка, давай! 🎶💃🕺",
+          },
+          {
+            originalText: "Kevin: Uhu! Festa de banana! 🍌🎉",
+            translation: "Кевін: Ура! Бананова вечірка! 🍌🎉",
+          },
+          {
+            originalText: "Stuart: Mais dança, menos problemas! 😎🎶",
+            translation: "Стюарт: Більше танців, менше проблем! 😎🎶",
+          },
+        ],
+        image: "./images/photo2.jpg", // Вказуємо шлях до зображення
+      });
+    </script>
+  </body>
+</html>
